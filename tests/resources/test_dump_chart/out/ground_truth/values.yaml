@@ -1,0 +1,22 @@
+test:
+  '0':
+    env:
+    - name: CUSTOM_JVM_ARGS
+      value: ''
+    - name: INIT_JAVA_HEAP
+      value: 1g
+    - name: MAX_JAVA_HEAP
+      value: 1g
+    - name: CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          key: CLIENT_SECRET
+          name: credentials
+    image: foo/bar:baz
+    imagePullPolicy: Always
+    imagePullSecret: regcreds
+    resources:
+      limits:
+        memory: 1Gi
+  '1':
+    serviceType: LoadBalancer

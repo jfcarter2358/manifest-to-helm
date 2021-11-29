@@ -1,0 +1,32 @@
+{
+  "all": {
+    "spec.template.spec.containers.[0].env": {
+      "pattern": "\n  {{- range .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}\n        - name: {{ .name }}\n          {{- if hasKey . \"value\" }}\n          value: {{ .value | quote }}\n          {{- else }}\n          valueFrom:\n            secretKeyRef:\n              name: {{ .valueFrom.secretKeyRef.name }}\n              key: {{ .valueFrom.secretKeyRef.key }}\n          {{- end }}\n        {{- end }} \n  {{- end }}",
+      "key": "env"
+    },
+    "spec.template.spec.containers.[0].resources": {
+      "pattern": "\n          {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}\n          {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.limits }}\n          limits:\n            {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.limits.cpu }}\n            cpu: {{ .Values.<<NAME>>.<<INDEX>>.<<KEY>>.limits.cpu }}\n            {{- end }}\n            {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.limits.memory }}\n            memory: {{ .Values.<<NAME>>.<<INDEX>>.<<KEY>>.limits.memory }}\n            {{- end }}\n          {{- end }}\n          {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.requests }}\n          requests:\n            {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.requests.cpu }}\n            cpu: {{ .Values.<<NAME>>.<<INDEX>>.<<KEY>>.requests.cpu }}\n            {{- end }}\n            {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.requests.memory }}\n            memory: {{ .Values.<<NAME>>.<<INDEX>>.<<KEY>>.requests.memory }}\n            {{- end }}\n          {{- end }}\n          {{- end }}",
+      "key": "resources"
+    },
+    "spec.template.spec.containers.[0].image": {
+      "pattern": "{{ .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}",
+      "key": "image"
+    },
+    "spec.template.spec.containers.[0].imagePullPolicy": {
+      "pattern": "{{ .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}",
+      "key": "imagePullPolicy"
+    },
+    "spec.template.spec.imagePullSecrets.[0].name": {
+      "pattern": "{{ .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}",
+      "key": "imagePullSecret"
+    },
+    "spec.template.spec.securityContext": {
+      "pattern": "\n        {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}\n      {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.runAsUser }}\n      runAsUser: {{ .Values.<<NAME>>.<<INDEX>>.<<KEY>>.runAsUser }}\n      {{- end }}\n      {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.runAsGroup }}\n      runAsGroup: {{ .Values.<<NAME>>.<<INDEX>>.<<KEY>>.runAsGroup }}\n      {{- end }}\n      {{- if .Values.<<NAME>>.<<INDEX>>.<<KEY>>.fsGroup }}\n      fsGroup: {{ .Values.<<NAME>>.<<INDEX>>.<<KEY>>.fsGroup }}\n      {{- end }}\n      {{- end }}",
+      "key": "securityContext"
+    },
+    "spec.type": {
+      "pattern": "{{ .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}",
+      "key": "serviceType"
+    }
+  }
+}

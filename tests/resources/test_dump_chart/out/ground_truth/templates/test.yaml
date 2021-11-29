@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: manifest-to-helm
+    service: test-service
+  name: test-service
+spec:
+  selector:
+    matchLabels:
+      app: manifest-to-helm
+      service: test-service
+  template:
+    metadata:
+      labels:
+        app: manifest-to-helm
+        service: test-service
+      name: test-service
+    spec:
+      containers:
+      - env: 
+  {{- range .Values.test.0.env }}
+        - name: {{ .name }}
+          {{- if hasKey . "value" }}
+          value: {{ .value | quote }}
+          {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .valueFrom.secretKeyRef.name }}
+              key: {{ .valueFrom.secretKeyRef.key }}
+          {{- end }}
+        {{- end }} 
+  {{- end }}
+        image: {{ .Values.test.0.image }}
+        imagePullPolicy: {{ .Values.test.0.imagePullPolicy }}
+        name: test-service
+        ports:
+        - containerPort: 8000
+          name: test-service-http
+          protocol: TCP
+        resources: 
+          {{- if .Values.test.0.resources }}
+          {{- if .Values.test.0.resources.limits }}
+          limits:
+            {{- if .Values.test.0.resources.limits.cpu }}
+            cpu: {{ .Values.test.0.resources.limits.cpu }}
+            {{- end }}
+            {{- if .Values.test.0.resources.limits.memory }}
+            memory: {{ .Values.test.0.resources.limits.memory }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.test.0.resources.requests }}
+          requests:
+            {{- if .Values.test.0.resources.requests.cpu }}
+            cpu: {{ .Values.test.0.resources.requests.cpu }}
+            {{- end }}
+            {{- if .Values.test.0.resources.requests.memory }}
+            memory: {{ .Values.test.0.resources.requests.memory }}
+            {{- end }}
+          {{- end }}
+          {{- end }}
+        stdin: true
+        tty: true
+        volumeMounts:
+        - mountPath: /tmp
+          name: temp-dir
+      hostname: test-service
+      imagePullSecrets:
+      - name: {{ .Values.test.0.imagePullSecret }}
+      restartPolicy: Always
+      volumes:
+      - emptyDir: {}
+        name: temp-dir
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: manifest-to-helm
+    service: test-service
+  name: test-service
+spec:
+  ports:
+  - name: test-service-http
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: manifest-to-helm
+    service: test-service
+  sessionAffinity: None
+  type: {{ .Values.test.1.serviceType }}
