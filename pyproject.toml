@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "manifest-to-helm"
-version = "0.1.1"
+version = "0.1.2"
 description = "A helper library to convert Kubernetes YAML manifests to Helm charts"
 authors = ["John Carter <jfcarter2358@gmail.com>"]
 
