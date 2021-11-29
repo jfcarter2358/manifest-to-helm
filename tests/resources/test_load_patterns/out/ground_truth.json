@@ -1,7 +1,7 @@
 {
   "all": {
     "spec.template.spec.containers.[0].env": {
-      "pattern": "\n  {{- range .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}\n        - name: {{ .name }}\n          {{- if hasKey . \"value\" }}\n          value: {{ .value | quote }}\n          {{- else }}\n          valueFrom:\n            secretKeyRef:\n              name: {{ .valueFrom.secretKeyRef.name }}\n              key: {{ .valueFrom.secretKeyRef.key }}\n          {{- end }}\n        {{- end }} \n  {{- end }}",
+      "pattern": "\n        {{- range .Values.<<NAME>>.<<INDEX>>.<<KEY>> }}\n        - name: {{ .name }}\n          {{- if hasKey . \"value\" }}\n          value: {{ .value | quote }}\n          {{- else }}\n          valueFrom:\n            secretKeyRef:\n              name: {{ .valueFrom.secretKeyRef.name }}\n              key: {{ .valueFrom.secretKeyRef.key }}\n          {{- end }}\n        {{- end }}",
       "key": "env"
     },
     "spec.template.spec.containers.[0].resources": {

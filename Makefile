@@ -11,7 +11,7 @@ clean:  ## Remove build and test artifacts
 	rm -rf tests/resources/test_dump_chart/out/test || true
 
 test:  ## Run test suite
-	pytest -q
+	pytest -vv
 
 build:  ## Build and package for distribution
 	poetry build

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - env: 
-  {{- range .Values.test.0.env }}
+        {{- range .Values.test.document_0.env }}
         - name: {{ .name }}
           {{- if hasKey . "value" }}
           value: {{ .value | quote }}
@@ -29,33 +29,32 @@ spec:
               name: {{ .valueFrom.secretKeyRef.name }}
               key: {{ .valueFrom.secretKeyRef.key }}
           {{- end }}
-        {{- end }} 
-  {{- end }}
-        image: {{ .Values.test.0.image }}
-        imagePullPolicy: {{ .Values.test.0.imagePullPolicy }}
+        {{- end }}
+        image: {{ .Values.test.document_0.image }}
+        imagePullPolicy: {{ .Values.test.document_0.imagePullPolicy }}
         name: test-service
         ports:
         - containerPort: 8000
           name: test-service-http
           protocol: TCP
         resources: 
-          {{- if .Values.test.0.resources }}
-          {{- if .Values.test.0.resources.limits }}
+          {{- if .Values.test.document_0.resources }}
+          {{- if .Values.test.document_0.resources.limits }}
           limits:
-            {{- if .Values.test.0.resources.limits.cpu }}
-            cpu: {{ .Values.test.0.resources.limits.cpu }}
+            {{- if .Values.test.document_0.resources.limits.cpu }}
+            cpu: {{ .Values.test.document_0.resources.limits.cpu }}
             {{- end }}
-            {{- if .Values.test.0.resources.limits.memory }}
-            memory: {{ .Values.test.0.resources.limits.memory }}
+            {{- if .Values.test.document_0.resources.limits.memory }}
+            memory: {{ .Values.test.document_0.resources.limits.memory }}
             {{- end }}
           {{- end }}
-          {{- if .Values.test.0.resources.requests }}
+          {{- if .Values.test.document_0.resources.requests }}
           requests:
-            {{- if .Values.test.0.resources.requests.cpu }}
-            cpu: {{ .Values.test.0.resources.requests.cpu }}
+            {{- if .Values.test.document_0.resources.requests.cpu }}
+            cpu: {{ .Values.test.document_0.resources.requests.cpu }}
             {{- end }}
-            {{- if .Values.test.0.resources.requests.memory }}
-            memory: {{ .Values.test.0.resources.requests.memory }}
+            {{- if .Values.test.document_0.resources.requests.memory }}
+            memory: {{ .Values.test.document_0.resources.requests.memory }}
             {{- end }}
           {{- end }}
           {{- end }}
@@ -66,7 +65,7 @@ spec:
           name: temp-dir
       hostname: test-service
       imagePullSecrets:
-      - name: {{ .Values.test.0.imagePullSecret }}
+      - name: {{ .Values.test.document_0.imagePullSecret }}
       restartPolicy: Always
       volumes:
       - emptyDir: {}
@@ -89,4 +88,4 @@ spec:
     app: manifest-to-helm
     service: test-service
   sessionAffinity: None
-  type: {{ .Values.test.1.serviceType }}
+  type: {{ .Values.test.document_1.serviceType }}

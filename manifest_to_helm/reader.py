@@ -67,17 +67,17 @@ class Chart:
                 for i in range(0, len(self.data[name])):
                     value = utils.get_from_key_list(self.data[name][i], path.split('.'))
                     if value:
-                        self.values = utils.set_from_key_list(self.values, [name.replace('-', '_'), f'document-{i}', self.patterns['all'][path]['key']], value)
-                        to_replace[f'{name}.document-{i}.{self.patterns["all"][path]["key"]}'] = self.patterns['all'][path]['pattern'].replace('<<NAME>>', name.replace('-', '_')).replace('<<INDEX>>', f'document-{i}').replace('<<KEY>>', self.patterns['all'][path]['key'])
-                        self.data[name][i] = utils.set_from_key_list(self.data[name][i], path.split('.'), f'<<{name}.document-{i}.{self.patterns["all"][path]["key"]}>>')
+                        self.values = utils.set_from_key_list(self.values, [name.replace('-', '_'), f'document_{i}', self.patterns['all'][path]['key']], value)
+                        to_replace[f'{name}.document_{i}.{self.patterns["all"][path]["key"]}'] = self.patterns['all'][path]['pattern'].replace('<<NAME>>', name.replace('-', '_')).replace('<<INDEX>>', f'document_{i}').replace('<<KEY>>', self.patterns['all'][path]['key'])
+                        self.data[name][i] = utils.set_from_key_list(self.data[name][i], path.split('.'), f'<<{name}.document_{i}.{self.patterns["all"][path]["key"]}>>')
             if name in self.patterns.keys():
                 for path in self.patterns[name]:
                     for i in range(0, len(self.data[name])):
                         value = utils.get_from_key_list(self.data[name][i], path.split('.'))
                         if value:
-                            self.values = utils.set_from_key_list(self.values, [name.replace('-', '_'), f'document-{i}', self.patterns[name][path]['key']], utils.get_from_key_list(self.data[name][i], path.split('.')))
-                            to_replace[f'{name}.document-{i}.{self.patterns[name][path]["key"]}'] = self.patterns[name][path]['pattern'].replace('<<NAME>>', name.replace('-', '_')).replace('<<INDEX>>', f'document-{i}').replace('<<KEY>>', self.patterns[name][path]['key'])
-                            self.data[name][i] = utils.set_from_key_list(self.data[name][i], path.split('.'), f'<<{name}.document-{i}.{self.patterns[name][path]["key"]}>>')
+                            self.values = utils.set_from_key_list(self.values, [name.replace('-', '_'), f'document_{i}', self.patterns[name][path]['key']], utils.get_from_key_list(self.data[name][i], path.split('.')))
+                            to_replace[f'{name}.document_{i}.{self.patterns[name][path]["key"]}'] = self.patterns[name][path]['pattern'].replace('<<NAME>>', name.replace('-', '_')).replace('<<INDEX>>', f'document_{i}').replace('<<KEY>>', self.patterns[name][path]['key'])
+                            self.data[name][i] = utils.set_from_key_list(self.data[name][i], path.split('.'), f'<<{name}.document_{i}.{self.patterns[name][path]["key"]}>>')
         for name in self.data:
             contents = yaml.dump_all(self.data[name])
             for k in to_replace:

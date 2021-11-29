@@ -1,5 +1,5 @@
 test:
-  '0':
+  document_0:
     env:
     - name: CUSTOM_JVM_ARGS
       value: ''
@@ -18,5 +18,5 @@ test:
     resources:
       limits:
         memory: 1Gi
-  '1':
+  document_1:
     serviceType: LoadBalancer
